@@ -87,9 +87,40 @@ public class ChessApp extends Application {
     private Piece makePiece(PieceType type, int x, int y) {
         Piece piece = new Piece(type, x, y);
 
+        piece.setOnMouseReleased(e -> {
+            int newX = toBoard(piece.getLayoutX());
+            int newY = toBoard(piece.getLayoutY());
+            int oldX = toBoard(piece.getOldX());
+            int oldY = toBoard(piece.getOldY());
+
+            boolean isLegal = true;
+
+            if(isLegal){
+                if(board[newX][newY].getPiece() != null){
+                    Piece otherPiece = board[newX][newY].getPiece();
+                    System.out.println("capture!");
+                    board[toBoard(otherPiece.getOldX())][toBoard(otherPiece.getOldY())].setPiece(null);
+                    pieceGroup.getChildren().remove(otherPiece);
+                }
+                piece.move(newX, newY);
+                board[oldX][oldY].setPiece(null);
+                board[newX][newY].setPiece(piece);
+            } else {
+                piece.move(oldX, oldY);
+            }
+
+//            piece.move(newX, newY);
+//            board[oldX][oldY].setPiece(null);
+//            board[newX][newY].setPiece(piece);
+//            System.out.println("moved");
+        });
+
         return piece;
     }
 
+    private int toBoard(double pixel) {
+        return (int)(pixel + TILE_SIZE / 2) / TILE_SIZE;
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
