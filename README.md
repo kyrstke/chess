@@ -1,4 +1,4 @@
-# SK2-chess-java
+# Chess
 
 A simple JavaFX chess app, primarily developed to work in LAN (one server and multiple clients). The project is yet to be continued.  
 
